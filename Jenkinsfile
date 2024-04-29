@@ -15,6 +15,18 @@ pipeline {
                 // Placeholder step for running integration tests
                 echo 'Running integration tests...'
             }
+                post {
+        success {
+            mail to: "zara.danziger15@gmail.com",
+                subject: "build status email",
+                body: "test was successful!!"
+        }
+        failure {
+          mail to: "zara.danziger15@gmail.com",
+                subject: "build status email",
+                body: "test failed!!"
+        }
+    }
         }
         stage('Code Analysis') {
             steps {
@@ -27,6 +39,18 @@ pipeline {
                 // Placeholder step for security scan
                 echo 'Performing security scan...'
             }
+                post {
+        success {
+            mail to: "zara.danziger15@gmail.com",
+                subject: "build status email",
+                body: "security scan was successful!!"
+        }
+        failure {
+          mail to: "zara.danziger15@gmail.com",
+                subject: "build status email",
+                body: "security scan failed!!"
+        }
+    }
         }
         stage('Deploy to Staging') {
             steps {
