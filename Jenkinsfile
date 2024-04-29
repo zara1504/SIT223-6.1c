@@ -50,20 +50,14 @@ pipeline {
     
     post {
         success {
-            emailext (
-                subject: "Pipeline Success: ${currentBuild.fullDisplayName}",
-                body: "The pipeline completed successfully. No further action required.",
-                to: "zara.danziger15@gmail.com",
-                attachLog: true
-            )
+            mail to: "zara.danziger15@gmail.com",
+                subject: "build status email",
+                body: "build was successful!!"
         }
         failure {
-            emailext (
-                subject: "Pipeline Failure: ${currentBuild.fullDisplayName}",
-                body: "The pipeline failed. Please check the Jenkins console output for more details.",
-                to: "zara.danziger15@gmail.com",
-                attachLog: true
-            )
+          mail to: "zara.danziger15@gmail.com",
+                subject: "build status email",
+                body: "build was failed!!"
         }
     }
 }
