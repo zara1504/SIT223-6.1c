@@ -12,23 +12,20 @@ pipeline {
                 echo 'Running unit tests...'
                 echo 'Running integration tests...'
             }
-                post {
-        success {
-                  script {
-                def logFilePath = currentBuild.rawBuild.getLogFile().toString()
-                def logContent = readFile(logFilePath)
-                mail to: "zara.danziger15@gmail.com",
-                     subject: "Build Status: Success",
-                     body: "Unit integration test was successful!\n\nLog:\n${logContent}"
+            post {
+                success {
+                    emailext body: "Unit integration test was successful!", 
+                             subject: "Build Status: Success", 
+                             to: "zara.danziger15@gmail.com", 
+                             attachmentsPattern: '**/*.log'
+                }
+                failure {
+                    emailext body: "Unit integration test failed!", 
+                             subject: "Build Status: Failure", 
+                             to: "zara.danziger15@gmail.com", 
+                             attachmentsPattern: '**/*.log'
+                }
             }
-            
-        }
-        failure {
-          mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "unit integration test failed!!"
-        }
-    }
         }
         stage('Code Analysis') {
             steps {
@@ -39,18 +36,20 @@ pipeline {
             steps {
                 echo 'Performing security scan...'
             }
-                post {
-        success {
-            mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "security scan was successful!!"
-        }
-        failure {
-          mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "security scan failed!!"
-        }
-    }
+            post {
+                success {
+                    emailext body: "Security scan was successful!", 
+                             subject: "Security Scan Status: Success", 
+                             to: "zara.danziger15@gmail.com", 
+                             attachmentsPattern: '**/*.log'
+                }
+                failure {
+                    emailext body: "Security scan failed!", 
+                             subject: "Security Scan Status: Failure", 
+                             to: "zara.danziger15@gmail.com", 
+                             attachmentsPattern: '**/*.log'
+                }
+            }
         }
         stage('Deploy to Staging') {
             steps {
@@ -68,8 +67,9 @@ pipeline {
             }
         }
     }
-    
 }
+
+
 
 
 
