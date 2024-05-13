@@ -14,16 +14,16 @@ pipeline {
                 echo 'Running integration tests...'
             }
                 post {
-        success {
-            mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "unit integration test was successful!!"
-        }
-        failure {
-          mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "unit integration test failed!!"
-        }
+                    always{
+                        emailext(
+                            to: "zara.danziger15@gmail.com",
+                            subject: "Jenkins Build ${currentBuild.fullDisplayName}",
+                            body: ""<p>Stage 'Stage Name' completed with status ${currentBuild.result}<p>
+                                <p>Check console output at ${env.BUILD_URL} to view the result. <p>"",
+                            attachLog: true
+                            )
+                    }
+                }
     }
         }
         stage('Code Analysis') {
@@ -40,6 +40,7 @@ pipeline {
             mail to: "zara.danziger15@gmail.com",
                 subject: "build status email",
                 body: "security scan was successful!!"
+                
         }
         failure {
           mail to: "zara.danziger15@gmail.com",
