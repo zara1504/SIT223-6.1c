@@ -12,18 +12,20 @@ pipeline {
                 echo 'Running unit tests...'
                 echo 'Running integration tests...'
             }
-                post {
-        success {
-            mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "unit integration test was successful!!"
-        }
-        failure {
-          mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "unit integration test failed!!"
-        }
-    }
+            post {
+                success {
+                    emailext attachLog: true,
+                             to: "zara.danziger15@gmail.com",
+                             subject: "Unit and Integration Test Status",
+                             body: "Unit and integration tests were successful!"
+                }
+                failure {
+                    emailext attachLog: true,
+                             to: "zara.danziger15@gmail.com",
+                             subject: "Unit and Integration Test Status",
+                             body: "Unit or integration tests failed!"
+                }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -34,18 +36,20 @@ pipeline {
             steps {
                 echo 'Performing security scan...'
             }
-                post {
-        success {
-            mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "security scan was successful!!"
-        }
-        failure {
-          mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "security scan failed!!"
-        }
-    }
+            post {
+                success {
+                    emailext attachLog: true,
+                             to: "zara.danziger15@gmail.com",
+                             subject: "Security Scan Status",
+                             body: "Security scan was successful!"
+                }
+                failure {
+                    emailext attachLog: true,
+                             to: "zara.danziger15@gmail.com",
+                             subject: "Security Scan Status",
+                             body: "Security scan failed!"
+                }
+            }
         }
         stage('Deploy to Staging') {
             steps {
@@ -63,6 +67,11 @@ pipeline {
             }
         }
     }
-    
+    post {
+        always {
+            cleanWs()
+        }
+    }
 }
+
 
