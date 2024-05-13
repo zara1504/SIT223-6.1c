@@ -15,15 +15,15 @@ pipeline {
             post {
                 success {
                     emailext attachLog: true,
-                             to: "zara.danziger15@gmail.com",
-                             subject: "Unit and Integration Test Status",
-                             body: "Unit and integration tests were successful!"
+                        to: "zara.danziger15@gmail.com",
+                        subject: "Build Status: Success",
+                        body: "Unit and integration tests were successful!"
                 }
                 failure {
                     emailext attachLog: true,
-                             to: "zara.danziger15@gmail.com",
-                             subject: "Unit and Integration Test Status",
-                             body: "Unit or integration tests failed!"
+                        to: "zara.danziger15@gmail.com",
+                        subject: "Build Status: Failure",
+                        body: "Unit and integration tests failed!"
                 }
             }
         }
@@ -39,15 +39,15 @@ pipeline {
             post {
                 success {
                     emailext attachLog: true,
-                             to: "zara.danziger15@gmail.com",
-                             subject: "Security Scan Status",
-                             body: "Security scan was successful!"
+                        to: "zara.danziger15@gmail.com",
+                        subject: "Security Scan Status: Success",
+                        body: "Security scan was successful!"
                 }
                 failure {
                     emailext attachLog: true,
-                             to: "zara.danziger15@gmail.com",
-                             subject: "Security Scan Status",
-                             body: "Security scan failed!"
+                        to: "zara.danziger15@gmail.com",
+                        subject: "Security Scan Status: Failure",
+                        body: "Security scan failed!"
                 }
             }
         }
@@ -67,11 +67,8 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            cleanWs()
-        }
-    }
+    
 }
+
 
 
