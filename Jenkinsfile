@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
     
@@ -13,18 +12,16 @@ pipeline {
                 echo 'Running unit tests...'
                 echo 'Running integration tests...'
             }
-                post {
-                    always{
-                        emailext(
-                            to: "zara.danziger15@gmail.com",
-                            subject: "Jenkins Build ${currentBuild.fullDisplayName}",
-                            body: ""<p> Stage 'Unit and Intergration Tests' completed with status ${currentBuild.result}<p>
-                                <p> Check console output at ${env.BUILD_URL} to view the result. <p>"",
-                            attachLog: true
-                            )
-                    }
+            post {
+                always {
+                    emailext(
+                        to: "zara.danziger15@gmail.com",
+                        subject: "Jenkins Build ${currentBuild.fullDisplayName}",
+                        body: "<p>Stage 'Unit and Integration Tests' completed with status ${currentBuild.result}<p>\n<p>Check console output at ${env.BUILD_URL} to view the result.<p>",
+                        attachLog: true
+                    )
                 }
-    }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -35,19 +32,16 @@ pipeline {
             steps {
                 echo 'Performing security scan...'
             }
-                post {
-        success {
-            mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "security scan was successful!!"
-                
-        }
-        failure {
-          mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "security scan failed!!"
-        }
-    }
+            post {
+                always {
+                    emailext(
+                        to: "zara.danziger15@gmail.com",
+                        subject: "Jenkins Build ${currentBuild.fullDisplayName}",
+                        body: "<p>Stage 'Security Scan' completed with status ${currentBuild.result}<p>\n<p>Check console output at ${env.BUILD_URL} to view the result.<p>",
+                        attachLog: true
+                    )
+                }
+            }
         }
         stage('Deploy to Staging') {
             steps {
@@ -65,8 +59,8 @@ pipeline {
             }
         }
     }
-    
 }
+
 
 
 
