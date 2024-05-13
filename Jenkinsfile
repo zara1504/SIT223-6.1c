@@ -12,18 +12,14 @@ pipeline {
                 echo 'Running unit tests...'
                 echo 'Running integration tests...'
             }
-                post {
-        success {
-            mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "unit integration test was successful!!"
-        }
-        failure {
-          mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "unit integration test failed!!"
-        }
-    }
+            post {
+                success {
+                    sendEmail(email: "zara.danziger15@gmail.com", subject: "Build Status: Unit and Integration Tests - Success", body: "Unit and Integration Tests were successful!")
+                }
+                failure {
+                    sendEmail(email: "zara.danziger15@gmail.com", subject: "Build Status: Unit and Integration Tests - Failed", body: "Unit and Integration Tests failed!")
+                }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -34,18 +30,14 @@ pipeline {
             steps {
                 echo 'Performing security scan...'
             }
-                post {
-        success {
-            mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "security scan was successful!!"
-        }
-        failure {
-          mail to: "zara.danziger15@gmail.com",
-                subject: "build status email",
-                body: "security scan failed!!"
-        }
-    }
+            post {
+                success {
+                    sendEmail(email: "zara.danziger15@gmail.com", subject: "Build Status: Security Scan - Success", body: "Security scan was successful!")
+                }
+                failure {
+                    sendEmail(email: "zara.danziger15@gmail.com", subject: "Build Status: Security Scan - Failed", body: "Security scan failed!")
+                }
+            }
         }
         stage('Deploy to Staging') {
             steps {
@@ -63,5 +55,14 @@ pipeline {
             }
         }
     }
-    
 }
+
+def sendEmail(email, subject, body) {
+    emailext (
+        to: email,
+        subject: subject,
+        body: body,
+        attachmentsPattern: '**/*.log'
+    )
+}
+
