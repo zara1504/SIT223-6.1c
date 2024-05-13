@@ -18,8 +18,8 @@ pipeline {
                         emailext(
                             to: "zara.danziger15@gmail.com",
                             subject: "Jenkins Build ${currentBuild.fullDisplayName}",
-                            body: ""<p>Stage 'Stage Name' completed with status ${currentBuild.result}<p>
-                                <p>Check console output at ${env.BUILD_URL} to view the result. <p>"",
+                            body: ""<p> Stage 'Unit and Intergration Tests' completed with status ${currentBuild.result}<p>
+                                <p> Check console output at ${env.BUILD_URL} to view the result. <p>"",
                             attachLog: true
                             )
                     }
