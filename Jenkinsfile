@@ -16,7 +16,7 @@ pipeline {
                 always {
                     emailext(
                         to: "zara.danziger15@gmail.com",
-                        subject: "Jenkins Build ${currentBuild.fullDisplayName}",
+                        subject: "Jenkins Build:${currentBuild.fullDisplayName}",
                         body: "<p>Stage 'Unit and Integration Tests' completed with status ${currentBuild.result}<p>\n<p>Check console output at ${env.BUILD_URL} to view the result.<p>",
                         attachLog: true
                     )
@@ -36,7 +36,7 @@ pipeline {
                 always {
                     emailext(
                         to: "zara.danziger15@gmail.com",
-                        subject: "Jenkins Build ${currentBuild.fullDisplayName}",
+                        subject: "Jenkins Build:${currentBuild.fullDisplayName}",
                         body: "<p>Stage 'Security Scan' completed with status ${currentBuild.result}<p>\n<p>Check console output at ${env.BUILD_URL} to view the result.<p>",
                         attachLog: true
                     )
